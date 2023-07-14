@@ -12,8 +12,9 @@ import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import Carousel from "../components/Carousel";
+
 import Services from "../components/Services";
+import Carousel from "../components/Carousel";
 
 
 const HomeScreen = () => {

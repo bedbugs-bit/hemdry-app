@@ -1,0 +1,10 @@
+{
+
+    "compilerOptions": {
+        "allowJs": true,       
+        "noImplicitAny": false,
+      },
+    "extends": "@tsconfig/react-native/tsconfig.json"
+   
+
+  }

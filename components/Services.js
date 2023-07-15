@@ -1,52 +1,64 @@
 import {
-  Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
+  ScrollView,
+  Pressable,
   Image,
 } from "react-native";
 import React from "react";
 
-export default function Services() {
+const Services = () => {
   const services = [
     {
-      id: "0311",
-      image: "https://cdn-icons-png.flaticon.com/128/3003/3003984.png",
-      name: "Washing",
+      id: "0",
+      image: require("../assets/images/laundry-machine.png"),
+      name: "Wash & Fold",
     },
     {
-      id: "1322",
-      image: "https://cdn-icons-png.flaticon.com/128/2975/2975175.png",
-      name: "Laundry",
+      id: "11",
+      image: require("../assets/images/dry-cleaning.png"),
+      name: "Dry Clean",
     },
     {
-      id: "1333",
-      image: "https://cdn-icons-png.flaticon.com/128/9753/9753675.png",
+      id: "12",
+      image: require("../assets/images/ironing-board.png"),
       name: "Wash & Iron",
     },
     {
-      id: "1344",
-      image: "https://cdn-icons-png.flaticon.com/128/995/995016.png",
-      name: "Cleaning",
+      id: "13",
+      image: require("../assets/images/stain-remover.png"),
+      name: "Stain Treatment",
     },
   ];
-
   return (
-    <View>
-      <ScrollView>
+    <View style={{ padding: 10 }}>
+      <Text style={{ fontSize: 16, fontWeight: "500", marginBottom: 7 }}>
+        How can we help you?
+      </Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {services.map((service, index) => (
-          <Pressable key={index}>
-            <Image
-              source={{ uri: service.image }}
-              style={{ width: 60, height: 70 }}
-            />
-            <Text>{service.name}</Text>
+          <Pressable
+            style={{
+              margin: 10,
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 7,
+            }}
+            key={index}
+          >
+            <Image source={service.image} style={{ width: 70, height: 70 }} />
+
+            <Text style={{ textAlign: "center", marginTop: 10 }}>
+              {service.name}
+            </Text>
           </Pressable>
         ))}
       </ScrollView>
     </View>
   );
-}
+};
+
+export default Services;
 
 const styles = StyleSheet.create({});

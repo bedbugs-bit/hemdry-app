@@ -15,7 +15,6 @@ import { Feather } from "@expo/vector-icons";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 
-
 const HomeScreen = () => {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     "Relax, we are fetching you location..."
@@ -91,7 +90,7 @@ const HomeScreen = () => {
       <View style={{ flexDirection: "row", alignItems: "center", padding: 5 }}>
         <Entypo name="location" size={33} color="#c1121f" />
         <View>
-          <Text style={{ fontSize: 18, fontWeight: "600" }}>Home</Text>
+          <Text style={{ fontSize: 18, fontWeight: "600" }}>Hemdry</Text>
           <Text>{displayCurrentAddress}</Text>
         </View>
 

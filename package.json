@@ -9,17 +9,28 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@awrminkhodaei/react-native-horizontal-datepicker": "^0.1.6",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@rneui/base": "^4.0.0-rc.7",
+    "@rneui/themed": "^4.0.0-rc.8",
+    "date-fns": "^2.30.0",
     "expo": "~48.0.15",
     "expo-location": "~15.1.1",
+    "expo-print": "~12.2.1",
+    "expo-sharing": "~11.2.2",
     "expo-status-bar": "~1.4.4",
-    "firebase": "^10.0.0",
+    "firebase": "^9.23.0",
+    "lottie-react-native": "5.1.4",
+    "moment-jalaali": "^0.10.0",
+    "object-to-array-convert": "^1.1.0",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-image-slider-box": "^2.0.7",
     "react-native-safe-area-context": "4.5.0",
-    "react-native-screens": "~3.20.0"
+    "react-native-screens": "~3.20.0",
+    "react-redux": "^8.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

@@ -4,17 +4,18 @@ import { SliderBox } from "react-native-image-slider-box";
 
 export default function Carousel() {
   const images = [
-    "https://media.istockphoto.com/id/853749314/vector/laundry-room-interior-with-washing-machine.jpg?s=612x612&w=0&k=20&c=niKXh3SB942z3miB0MQEwLWz5AelyuAVD7InHb68Jr0=",
+    require("../assets/images/laundry-theme-illustration-people-at-public-launderette.jpg"),
+    require("../assets/images/laundry-service-online-on-laptop-screen-laundromat-home-appliance-housekeeping-concept-washing-machines-modern-flat-cartoon-style-illustration-on-white-background-vector.jpg"),
     "https://static.vecteezy.com/system/resources/previews/000/128/923/non_2x/free-laundry-vector.png",
-    "https://media.istockphoto.com/id/1247884083/vector/laundry-service-room-vector-illustration-washing-and-drying-machines-with-cleansers-on-shelf.jpg?s=612x612&w=0&k=20&c=myaNEKlqX7R--bzWGDoMI7PhdxG_zdQTKYEBlymJQGk=",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT44-nASXu5yRfjJSiYGupipV4z-hwnxy1rMnKPGf-Q5b0n7J6e8j6ffwBDqGnz12JcdkQ",
+    "https://st2.depositphotos.com/26922084/43809/v/600/depositphotos_438090202-stock-illustration-female-maid-help-man-to.jpg",
+    "https://st4.depositphotos.com/2885805/41210/v/450/depositphotos_412105696-stock-illustration-dry-cleaning-service-composition.jpg",
   ];
   return (
     <View>
       <SliderBox
         images={images}
         autoPlay
-        circleLoop
+        autoplayInterval={3000}
         dotColor={"#13274F"}
         inactiveDotColor="#90A4AE"
         ImageComponentStyle={{

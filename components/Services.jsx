@@ -33,7 +33,7 @@ const Services = () => {
   ];
   return (
     <View style={{ padding: 10 }}>
-      <Text style={{ fontSize: 16, fontWeight: "500", marginBottom: 7 }}>
+      <Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 7, marginLeft: 7}}>
         How can we help you?
       </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>

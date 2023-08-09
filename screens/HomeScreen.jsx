@@ -2,11 +2,12 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
+  ScrollView,
   Alert,
   Pressable,
   Image,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
@@ -14,6 +15,9 @@ import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
+import HomeNeeds from "../components/HomeNeeds";
+import OfficeNeeds from "../components/OfficeNeeds";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
@@ -84,22 +88,31 @@ const HomeScreen = () => {
     }
   };
 
+  const navigation = useNavigation();
+
+  const navigateToLaundryScreen = () => {
+    navigation.navigate("Laundry-Screen", { displayCurrentAddress });
+  };
+
   return (
-    <SafeAreaView>
+    <ScrollView style={{ marginTop: 30 }}>
       {/* LOCATION AND PROFILE */}
       <View style={{ flexDirection: "row", alignItems: "center", padding: 5 }}>
         <Entypo name="location" size={33} color="#c1121f" />
         <View>
-          <Text style={{ fontSize: 18, fontWeight: "600" }}>Hemdry</Text>
+          <Text style={{ fontSize: 20, fontWeight: "800", marginLeft: 3 }}>
+            Hemdry
+          </Text>
           <Text>{displayCurrentAddress}</Text>
         </View>
 
-        <Pressable style={{ marginLeft: "auto", marginRight: 7 }}>
+        <Pressable
+          style={{ marginLeft: "auto", marginRight: 7 }}
+          onPress={() => navigation.navigate("UserProfile")}
+        >
           <Image
-            style={{ width: 40, height: 40, borderRadius: 20 }}
-            source={{
-              uri: "https://lh3.googleusercontent.com/ogw/AOLn63EJ4wlTR-e2ySR9UWyM4o-Fyy6wu2vq5obSxRKdCQU=s32-c-mo",
-            }}
+            style={{ width: 30, height: 30, borderRadius: 20 }}
+            source={require("../assets/images/user.png")}
           ></Image>
         </Pressable>
       </View>
@@ -126,7 +139,12 @@ const HomeScreen = () => {
 
       {/* LAUNDRY SERVICES */}
       <Services />
-    </SafeAreaView>
+
+      {/* HOME AND OFFICE NEEDS */}
+      <HomeNeeds navigateToLaundryScreen={navigateToLaundryScreen} />
+
+      <OfficeNeeds navigateToLaundryScreen={navigateToLaundryScreen} />
+    </ScrollView>
   );
 };
 

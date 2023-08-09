@@ -142,7 +142,7 @@ export default function PickUpScreen({ route }) {
         </Text>
         <HorizontalDatepicker
           mode="gregorian"
-          startDate={new Date("2023-08-01")}
+          startDate={new Date("2023-08-10")}
           endDate={new Date("2023-12-28")}
           initialSelectedDate={new Date("2020-08-22")}
           onSelectedDateChange={(date) => setSelectedDate(date)}

@@ -51,6 +51,15 @@ export default function RegisterScreen() {
           email: email,
           phone: phoneNum,
         });
+
+        Alert.alert("Account Created, Now Sign In", errorMessage.substr(10, 40), [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
       })
       .catch((error) => {
         const errorCode = error.code;

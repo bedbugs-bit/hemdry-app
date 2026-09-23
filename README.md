@@ -24,7 +24,7 @@ npm ci
 cp .env.example .env
 ```
 
-Fill in `.env` using Firebase Console → Project settings → Your apps → Web app configuration. The API key, project ID, and app ID are required; also copy the other supplied fields, including the auth domain for web. Use the values for your actual Firebase project. Restart Expo after changing them.
+Fill in `.env` 
 
 `firebaseApp.js` initializes the app from these environment variables. `firebase.native.js` persists mobile authentication with AsyncStorage; `firebase.js` uses browser persistence. There is no separate untracked `firebase.js` to obtain. A missing configuration produces an explicit setup error at runtime.
 
@@ -70,17 +70,4 @@ npm run build:android
 
 These commands generate the ignored `ios/` and `android/` directories. Native settings belong in `app.json` and config plugins; generated native changes may be overwritten during regeneration. For signed distribution builds, configure your Expo account, identifiers, credentials, and EAS Build separately; this repository does not include a linked EAS project or signing credentials.
 
-## Dependency policy and migration
 
-Updated from SDK 48 to **Expo 57.0.24**, **React Native 0.86.3**, and **React 19.2.3**, with React Navigation 7, Redux Toolkit 2, React Redux 9, and Firebase 12. Versions follow [Expo's SDK 57 release guidance](https://expo.dev/changelog/sdk-57) and [Firebase integration guide](https://docs.expo.dev/guides/using-firebase/).
-
-- Use `npx expo install <package>` for Expo/native packages and commit `package-lock.json`. Use `npm ci` for reproducible installs; do not use `--force` or `--legacy-peer-deps` to bypass incompatibilities.
-- React, React Native, AsyncStorage, Lottie, screens, and safe-area-context deliberately follow Expo's supported versions even when newer npm releases exist.
-- `@lottiefiles/dotlottie-react` stays on 0.13.x to satisfy Lottie's web peer dependency. Babel stays on 7 for Expo's preset. ESLint stays on 9 because the React/import plugins used by Expo do not yet declare ESLint 10 support; npm currently marks ESLint 9 deprecated. Revisit it when those plugins support 10.
-- Removed unused RNEUI release-candidate packages, `moment-jalaali`, and `object-to-array-convert`. Replaced the legacy image slider and date picker with React Native components. Pickup dates now cover today through the next 29 days instead of a fixed 2023 range.
-- The scoped npm override `xcode → uuid@^11.1.1` replaces the vulnerable uuid 7 dependency with a patched CommonJS-compatible version. The xcode package only uses `uuid.v4()`. Revisit this override when upstream xcode updates its dependency.
-- Safe-area handling now uses one root provider and native insets. Authentication restores sessions, registration waits for profile writes, and failed order writes keep the cart intact. Clearing the cart also resets product quantities.
-
-## Verification scope
-
-The upgrade was checked with Node 24/npm 11: dependency compatibility, Expo Doctor, lint, regression tests, production exports for all three platforms, and native project generation in a temporary copy using test identifiers. Full native binary compilation still requires Xcode and Java/Android tooling. Live login, database rules, location, printing/sharing, and on-device UI flows must be checked against your configured Firebase project and target devices.

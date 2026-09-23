@@ -9,6 +9,13 @@ Hemdry is an Expo app for booking laundry pickup, washing, ironing, and dry clea
 - For mobile previews, an Expo Go version that supports SDK 57. Use [Expo's downloads](https://expo.dev/go) to check availability for your device; the app-store version may support a different SDK.
 - For native compilation: full Xcode and CocoaPods on macOS for iOS; Android Studio, Android SDK, and JDK 17 for Android. See [Expo's local build setup](https://docs.expo.dev/guides/local-app-development/).
 
+## App Preview
+<img width="295" height="600" alt="Image" src="https://github.com/user-attachments/assets/024add0f-4f65-4718-afcb-46ff9e045d62" />
+<img width="295" height="600" alt="Image" src="https://github.com/user-attachments/assets/668bf4b3-e146-4696-9243-2dc7c1b50c04" />
+<img width="295" height="600" alt="Image" src="https://github.com/user-attachments/assets/09d5cad1-0903-475f-a9d1-2f6a02931e29" />
+
+
+
 ## Install and configure
 
 ```sh

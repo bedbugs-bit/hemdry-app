@@ -1,15 +1,11 @@
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from "react-native";
+import { Pressable, Text, TouchableOpacity, View, Image } from "react-native";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, decrementQuantity, incrementQuantity } from "../CartReducer";
+import {
+  addToCart,
+  decrementQuantity,
+  incrementQuantity,
+} from "../CartReducer";
 import { decrementQty, incrementQty } from "../ProductReducer";
 
 export default function LaundryItems({ item }) {
@@ -32,10 +28,7 @@ export default function LaundryItems({ item }) {
         margin: 14,
       }}
     >
-      <Image
-        style={{ width: 70, height: 70 }}
-        source={ item.image }
-      ></Image>
+      <Image style={{ width: 70, height: 70 }} source={item.image}></Image>
       <View>
         <Text
           style={{
@@ -151,5 +144,3 @@ export default function LaundryItems({ item }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

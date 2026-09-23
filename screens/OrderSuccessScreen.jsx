@@ -1,13 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { SafeAreaView, TouchableOpacity } from "react-native";
 import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function OrderSuccessScreen() {
   const navigation = useNavigation();
   return (
-    <SafeAreaView>
+    <View>
       <LottieView
         source={require("../assets/animation-json/thumbs.json")}
         style={{
@@ -61,7 +60,7 @@ export default function OrderSuccessScreen() {
           paddingRight: 30,
           borderRadius: 8,
           marginTop: 15,
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Text
@@ -74,8 +73,6 @@ export default function OrderSuccessScreen() {
           Home
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({});

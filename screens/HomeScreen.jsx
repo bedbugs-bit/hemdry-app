@@ -1,18 +1,15 @@
 import {
-  StyleSheet,
+  Platform,
   Text,
   View,
   ScrollView,
-  Alert,
   Pressable,
   Image,
   TextInput,
-  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
-import { Entypo } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
 import Carousel from "../components/Carousel";
 import Services from "../components/Services";
 import HomeNeeds from "../components/HomeNeeds";
@@ -21,72 +18,50 @@ import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
-    "Relax, we are fetching you location..."
+    "Relax, we are fetching you location...",
   );
-  const [locationServicesEnabled, setLocationServicesEnabled] = useState(false);
   useEffect(() => {
-    checkIfLocationEnabled();
-    getCurrentLocation();
-  }, []);
-
-  const checkIfLocationEnabled = async () => {
-    let enabled = await Location.hasServicesEnabledAsync();
-    if (!enabled) {
-      Alert.alert(
-        "Location services not enabled",
-        "Please enable the location services to continue",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ],
-        { cancelable: false }
-      );
-    } else {
-      setLocationServicesEnabled(enabled);
-    }
-  };
-
-  const getCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert(
-        "Permission not granted",
-        "Allow the app to use location service",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ],
-        { cancelable: false }
-      );
-    }
-    let { coords } = await Location.getCurrentPositionAsync();
-    // console.log(coords);
-
-    if (coords) {
-      const { latitude, longitude } = coords;
-
-      let response = await Location.reverseGeocodeAsync({
-        latitude,
-        longitude,
-      });
-
-      //   console.log(response);
-
-      for (let item of response) {
-        let address = `  ${item.name} ${item.city}, ${item.region}, ${item.country} `;
-        setDisplayCurrentAddress(address);
-        // console.log(address);
+    let active = true;
+    const locate = async () => {
+      try {
+        if (!(await Location.hasServicesEnabledAsync())) {
+          if (active)
+            setDisplayCurrentAddress("Enter your pickup address at checkout");
+          return;
+        }
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          if (active)
+            setDisplayCurrentAddress("Enter your pickup address at checkout");
+          return;
+        }
+        const { coords } = await Location.getCurrentPositionAsync({});
+        // Expo's reverse geocoding is native-only; the web checkout accepts an address.
+        if (Platform.OS === "web") {
+          if (active)
+            setDisplayCurrentAddress("Enter your pickup address at checkout");
+          return;
+        }
+        const [address] = await Location.reverseGeocodeAsync(coords);
+        if (active) {
+          setDisplayCurrentAddress(
+            address
+              ? [address.name, address.city, address.region, address.country]
+                  .filter(Boolean)
+                  .join(", ")
+              : "Enter your pickup address at checkout",
+          );
+        }
+      } catch {
+        if (active)
+          setDisplayCurrentAddress("Enter your pickup address at checkout");
       }
-    }
-  };
+    };
+    locate();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const navigation = useNavigation();
 
@@ -149,5 +124,3 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({});

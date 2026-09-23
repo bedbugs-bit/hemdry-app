@@ -1,16 +1,16 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React, { useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView } from "react-native";
-import { PricingCard, lightColors } from "@rneui/themed";
-import { db } from "../firebase";
-import { useState } from "react";
-import { FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { db, auth } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
-import { signInWithCredential, signOut } from "firebase/auth";
-import { auth } from "../firebase";
-import { AntDesign } from '@expo/vector-icons';
+import { signOut } from "firebase/auth";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function AdminDashboard() {
   const navigation = useNavigation();
@@ -49,21 +49,25 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <Text
           style={{
             fontSize: 28,
             fontWeight: "800",
             marginLeft: 10,
-            marginBottom:10,
+            marginBottom: 10,
           }}
         >
           Hemdry
         </Text>
         <View style={styles.header}>
           <Text style={styles.headerText}>Admin Dashboard</Text>
-          <AntDesign name="shoppingcart" size={30} color="black" paddingLeft={120} />
-
+          <AntDesign
+            name="shopping-cart"
+            size={30}
+            color="black"
+            paddingLeft={120}
+          />
         </View>
 
         <FlatList
@@ -98,7 +102,7 @@ export default function AdminDashboard() {
             Sign Out
           </Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </>
   );
 }
@@ -113,7 +117,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     flexDirection: "row",
-
   },
   headerText: {
     fontSize: 24,

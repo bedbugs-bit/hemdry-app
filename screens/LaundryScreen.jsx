@@ -1,116 +1,107 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, Text, View, Image, Pressable } from "react-native";
 import React, { useEffect } from "react";
 import LaundryItems from "../components/LaundryItems";
-import { Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../ProductReducer";
 import { useNavigation } from "@react-navigation/native";
 
+const laundryServices = [
+  {
+    id: "001",
+    image: require("../assets/images/hawaiian-shirt.png"),
+    name: "Shirt",
+    quantity: 0,
+    price: 10,
+  },
+  {
+    id: "002",
+    image: require("../assets/images/dress.png"),
+    name: "Dress",
+    quantity: 0,
+    price: 10,
+  },
+  {
+    id: "003",
+    image: require("../assets/images/t-shirt.png"),
+    name: "Top",
+    quantity: 0,
+    price: 10,
+  },
+  {
+    id: "004",
+    image: require("../assets/images/trouser.png"),
+    name: "Trouser",
+    quantity: 0,
+    price: 10,
+  },
+  {
+    id: "005",
+    image: require("../assets/images/sweater.png"),
+    name: "Sweater",
+    quantity: 0,
+    price: 10,
+  },
+
+  {
+    id: "006",
+    image: require("../assets/images/suit.png"),
+    name: "Suit",
+    quantity: 0,
+    price: 10,
+  },
+  {
+    id: "007",
+    image: require("../assets/images/shorts.png"),
+    name: "Shorts",
+    quantity: 0,
+    price: 10,
+  },
+
+  {
+    id: "008",
+    image: require("../assets/images/undergarment.png"),
+    name: "Undergarment",
+    quantity: 0,
+    price: 10,
+  },
+  {
+    id: "009",
+    image: require("../assets/images/double-bed.png"),
+    name: "Bedding",
+    quantity: 0,
+    price: 10,
+  },
+
+  {
+    id: "010",
+    image: require("../assets/images/footware.png"),
+    name: "Footware",
+    quantity: 0,
+    price: 10,
+  },
+
+  {
+    id: "011",
+    image: require("../assets/images/fabric.png"),
+    name: "Fabric",
+    quantity: 0,
+    price: 10,
+  },
+
+  {
+    id: "012",
+    image: require("../assets/images/garment.png"),
+    name: "Lace",
+    quantity: 0,
+    price: 10,
+  },
+];
+
 export default function LaundryScreen({ route }) {
   const { displayCurrentAddress } = route.params;
 
   const navigation = useNavigation();
-
-  const laundryServices = [
-    {
-      id: "001",
-      image: require("../assets/images/hawaiian-shirt.png"),
-      name: "Shirt",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "002",
-      image: require("../assets/images/dress.png"),
-      name: "Dress",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "003",
-      image: require("../assets/images/t-shirt.png"),
-      name: "Top",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "004",
-      image: require("../assets/images/trouser.png"),
-      name: "Trouser",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "005",
-      image: require("../assets/images/sweater.png"),
-      name: "Sweater",
-      quantity: 0,
-      price: 10,
-    },
-
-    {
-      id: "006",
-      image: require("../assets/images/suit.png"),
-      name: "Suit",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "007",
-      image: require("../assets/images/shorts.png"),
-      name: "Shorts",
-      quantity: 0,
-      price: 10,
-    },
-
-    {
-      id: "008",
-      image: require("../assets/images/undergarment.png"),
-      name: "Undergarment",
-      quantity: 0,
-      price: 10,
-    },
-    {
-      id: "009",
-      image: require("../assets/images/double-bed.png"),
-      name: "Bedding",
-      quantity: 0,
-      price: 10,
-    },
-
-    {
-      id: "010",
-      image: require("../assets/images/footware.png"),
-      name: "Footware",
-      quantity: 0,
-      price: 10,
-    },
-
-    {
-      id: "011",
-      image: require("../assets/images/fabric.png"),
-      name: "Fabric",
-      quantity: 0,
-      price: 10,
-    },
-
-    {
-      id: "012",
-      image: require("../assets/images/garment.png"),
-      name: "Lace",
-      quantity: 0,
-      price: 10,
-    },
-  ];
 
   // REDUX
   const cart = useSelector((state) => state.cart.cart);
@@ -121,12 +112,12 @@ export default function LaundryScreen({ route }) {
     if (product.length > 0) return;
 
     const fetchProducts = () => {
-      laundryServices.map((service) => {
+      laundryServices.forEach((service) => {
         dispatch(getProducts(service));
       });
     };
     fetchProducts();
-  }, []);
+  }, [dispatch, product.length]);
 
   const total = cart
     .map((item) => item.quantity * item.price)
@@ -158,11 +149,11 @@ export default function LaundryScreen({ route }) {
 
         {/* DISPLAY LAUNDRY GARMENTS */}
 
-        <SafeAreaView>
+        <View>
           {product.map((item, index) => (
             <LaundryItems item={item} key={index} />
           ))}
-        </SafeAreaView>
+        </View>
       </ScrollView>
 
       {total === 0 ? null : (
@@ -211,5 +202,3 @@ export default function LaundryScreen({ route }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({});

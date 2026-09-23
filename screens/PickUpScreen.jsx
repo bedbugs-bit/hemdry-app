@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   Alert,
@@ -10,20 +9,19 @@ import {
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import HorizontalDatepicker from "@awrminkhodaei/react-native-horizontal-datepicker";
-import { SafeAreaView } from "react-native-safe-area-context";
+import PickupDatePicker from "../components/PickupDatePicker";
 import { format } from "date-fns";
 
 export default function PickUpScreen({ route }) {
-  const { location } = route.params;
+  const { location = "" } = route.params ?? {};
   const [selectedDate, setSelectedDate] = useState("");
   const cart = useSelector((state) => state.cart.cart);
   const total = cart
     .map((item) => item.quantity * item.price)
     .reduce((curr, prev) => curr + prev, 0);
-  const [selectedTime, setSelectedTime] = useState([]);
-  const [delivery, setDelivery] = useState([]);
-  const [value, setInputText] = useState("Enter your details here");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [delivery, setDelivery] = useState("");
+  const [value, setInputText] = useState("");
   const handleTextChange = (text) => {
     setInputText(text);
   };
@@ -115,6 +113,7 @@ export default function PickUpScreen({ route }) {
         </Text>
         <TextInput
           editable
+          placeholder="Enter your address and laundry instructions"
           multiline
           numberOfLines={6}
           maxLength={60}
@@ -140,21 +139,9 @@ export default function PickUpScreen({ route }) {
         >
           Pick Up Date
         </Text>
-        <HorizontalDatepicker
-          mode="gregorian"
-          startDate={new Date("2023-08-10")}
-          endDate={new Date("2023-12-28")}
-          initialSelectedDate={new Date("2020-08-22")}
-          onSelectedDateChange={(date) => setSelectedDate(date)}
-          selectedItemWidth={170}
-          unselectedItemWidth={38}
-          itemHeight={38}
-          itemRadius={10}
-          selectedItemTextStyle={styles.selectedItemTextStyle}
-          unselectedItemTextStyle={styles.selectedItemTextStyle}
-          selectedItemBackgroundColor="#222831"
-          unselectedItemBackgroundColor="#ececec"
-          flatListContainerStyle={styles.flatListContainerStyle}
+        <PickupDatePicker
+          selectedDate={selectedDate}
+          onSelect={setSelectedDate}
         />
 
         <Text
@@ -275,5 +262,3 @@ export default function PickUpScreen({ route }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({});

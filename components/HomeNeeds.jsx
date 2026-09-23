@@ -1,11 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import React from "react";
-import { Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 export default function HomeNeeds({ navigateToLaundryScreen }) {
-  const navigation = useNavigation();
-
   return (
     <View>
       <Pressable
@@ -19,7 +15,6 @@ export default function HomeNeeds({ navigateToLaundryScreen }) {
           justifyContent: "space-around",
           backgroundColor: "#F8F8F8",
         }}
-        // onPress={() => navigation.navigate("Laundry-Screen")}
         onPress={navigateToLaundryScreen}
       >
         <View>
@@ -38,5 +33,3 @@ export default function HomeNeeds({ navigateToLaundryScreen }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

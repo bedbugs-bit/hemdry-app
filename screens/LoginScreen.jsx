@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   TextInput,
   Pressable,
   ActivityIndicator,
@@ -10,9 +9,8 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -20,59 +18,43 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
-  const adminEmails = ["admin_user@usiu.ac.ke", "anotheradmin@example.com"];
-  const isAdmin = adminEmails.includes(email); // Check if the user's email is in the adminEmails array
-
+  const isFocused = useIsFocused();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    setLoading(true);
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (!authUser) {
-        setLoading(false);
-      }
-      if (authUser) {
+    if (!isFocused) return;
+    return auth.onAuthStateChanged((user) => {
+      setLoading(false);
+      if (user) {
+        const admins = ["admin_user@usiu.ac.ke", "anotheradmin@example.com"];
+        navigation.replace(admins.includes(user.email) ? "Admin" : "Home");
       }
     });
-
-    return unsubscribe;
-  }, []);
+  }, [isFocused, navigation]);
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log("Current user's credential", userCredential);
-        const user = userCredential.user;
-        console.log("user details", user);
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      const errorCode = error.code;
+      console.log(errorCode);
+      const errorMessage = error.message;
+      console.log(errorMessage);
 
-        if (isAdmin) {
-          navigation.navigate("Admin");
-        } else {
-          navigation.replace("Home");
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        console.log(errorCode);
-        const errorMessage = error.message;
-        console.log(errorMessage);
+      if (errorMessage) {
+        Alert.alert("Invalid sign in details", errorMessage, [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ]);
+      }
 
-        if (errorMessage) {
-          Alert.alert("Invalid sign in details", errorMessage.substr(10, 40), [
-            {
-              text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel",
-            },
-            { text: "OK", onPress: () => console.log("OK Pressed") },
-          ]);
-        }
-
-        // ..
-      });
+      // ..
+    });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {loading ? (
         <View
           style={{
@@ -143,13 +125,13 @@ export default function LoginScreen() {
               style={{ marginTop: 20 }}
             >
               <Text style={styles.signUpButtonText}>
-                Don't have a account? Sign Up
+                Don&apos;t have an account? Sign Up
               </Text>
             </Pressable>
           </View>
         </KeyboardAvoidingView>
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 

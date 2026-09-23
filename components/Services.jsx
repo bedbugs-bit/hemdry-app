@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Pressable,
-  Image,
-} from "react-native";
+import { Text, View, ScrollView, Pressable, Image } from "react-native";
 import React from "react";
 
 const Services = () => {
@@ -33,7 +26,14 @@ const Services = () => {
   ];
   return (
     <View style={{ padding: 10 }}>
-      <Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 7, marginLeft: 7}}>
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: "600",
+          marginBottom: 7,
+          marginLeft: 7,
+        }}
+      >
         How can we help you?
       </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -60,5 +60,3 @@ const Services = () => {
 };
 
 export default Services;
-
-const styles = StyleSheet.create({});

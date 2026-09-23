@@ -1,16 +1,8 @@
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from "react-native";
+import { Text, TouchableOpacity, View, Image } from "react-native";
 import React from "react";
 import { auth } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
-import { signInWithCredential, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { cleanCart } from "../CartReducer";
@@ -59,7 +51,7 @@ export default function UserScreen() {
       >
         Hemdry
       </Text>
-      <SafeAreaView style={{ flex: 1, alignItems: "center", marginTop: 100 }}>
+      <View style={{ flex: 1, alignItems: "center", marginTop: 100 }}>
         <Image
           style={{ width: 300, height: 250, borderRadius: 10 }}
           source={require("../assets/images/sign-out.avif")}
@@ -77,7 +69,7 @@ export default function UserScreen() {
           </Text>
         </View>
         <View>
-          <Text style={{fontSize: 13}}>Your favourite Laudry App</Text>
+          <Text style={{ fontSize: 13 }}>Your favourite Laudry App</Text>
         </View>
         <TouchableOpacity
           onPress={signOutUser}
@@ -93,13 +85,11 @@ export default function UserScreen() {
             marginTop: 15,
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "400", color: "white", }}>
+          <Text style={{ fontSize: 20, fontWeight: "400", color: "white" }}>
             Sign Out
           </Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({});

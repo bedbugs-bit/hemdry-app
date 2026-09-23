@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,9 +11,9 @@ import UserScreen from "./screens/UserScreen";
 import OrderSuccessScreen from "./screens/OrderSuccessScreen";
 import AdminDashboard from "./screens/AdminDashboard";
 
-export default function StackNavigator() {
-  const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
+export default function StackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -69,5 +68,3 @@ export default function StackNavigator() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({});

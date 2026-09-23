@@ -1,5 +1,4 @@
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   TextInput,
@@ -9,11 +8,12 @@ import {
   View,
   Alert,
 } from "react-native";
-import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  SimpleLineIcons,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { SimpleLineIcons } from "@expo/vector-icons";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
@@ -36,30 +36,17 @@ export default function RegisterScreen() {
             style: "cancel",
           },
           { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
+        ],
       );
+      return;
     }
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        console.log("Current User's Credential:  ", userCredential);
-        const user = userCredential.user;
-        const myUserUid = auth.currentUser.uid;
-
-        // Set Phone Number
-        setDoc(doc(db, "users", `${myUserUid}`), {
-          email: email,
+      .then(async ({ user }) => {
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
           phone: phoneNum,
         });
-
-        Alert.alert("Account Created, Now Sign In", errorMessage.substr(10, 40), [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]);
+        navigation.reset({ index: 0, routes: [{ name: "Home" }] });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -68,7 +55,7 @@ export default function RegisterScreen() {
         console.log(errorMessage);
 
         if (errorMessage) {
-          Alert.alert("Invalid sign up details", errorMessage.substr(10, 40), [
+          Alert.alert("Invalid sign up details", errorMessage, [
             {
               text: "Cancel",
               onPress: () => console.log("Cancel Pressed"),
@@ -82,7 +69,7 @@ export default function RegisterScreen() {
       });
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <KeyboardAvoidingView>
         <View>
           <Text style={styles.pageHeading}>Hemdry</Text>
@@ -152,7 +139,7 @@ export default function RegisterScreen() {
           </Pressable>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -7,28 +7,30 @@ export const productSlice = createSlice({
   },
   reducers: {
     getProducts: (state, action) => {
-      state.product.push({ ...action.payload });
+      if (!state.product.some((item) => item.id === action.payload.id)) {
+        state.product.push({ ...action.payload });
+      }
     },
     incrementQty: (state, action) => {
       const itemPresent = state.product.find(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
-      itemPresent.quantity++;
+      if (itemPresent) itemPresent.quantity++;
     },
     decrementQty: (state, action) => {
       const itemPresent = state.product.find(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
-      if (itemPresent.quantity == 1) {
-        itemPresent.quantity = 0;
-        const removeItem = state.product.filter(
-          (item) => item.id !== action.payload.id
-        );
-        state.cart = removeItem;
-      } else {
-        itemPresent.quantity--;
-      }
+      if (itemPresent)
+        itemPresent.quantity = Math.max(0, itemPresent.quantity - 1);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase("cart/cleanCart", (state) => {
+      state.product.forEach((item) => {
+        item.quantity = 0;
+      });
+    });
   },
 });
 

@@ -1,22 +1,20 @@
 import {
-  StyleSheet,
   Text,
   View,
-  SafeAreaView,
   ScrollView,
-  TouchableOpacity,
   Pressable,
-  Button,
+  Alert,
+  Platform,
 } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { cleanCart } from "../CartReducer";
-import { printToFileAsync } from "expo-print";
-import { shareAsync } from "expo-sharing";
+import { printAsync, printToFileAsync } from "expo-print";
+import { isAvailableAsync, shareAsync } from "expo-sharing";
 
 export default function CartScreen({ route }) {
   const cart = useSelector((state) => state.cart.cart);
@@ -28,8 +26,10 @@ export default function CartScreen({ route }) {
   const navigation = useNavigation();
   const { selectedTime, noOfDays, pickUpDate } = route.params;
   const dispatch = useDispatch();
-  const userUid = auth.currentUser.uid;
-  const userName = auth.currentUser.email;
+  const submitting = useRef(false);
+  const [placingOrder, setPlacingOrder] = useState(false);
+  const userUid = auth.currentUser?.uid;
+  const userName = auth.currentUser?.email;
 
   const html = `
   <html> 
@@ -54,20 +54,47 @@ export default function CartScreen({ route }) {
   </html>`;
 
   const placeOrder = async () => {
-    navigation.navigate("Order");
-    dispatch(cleanCart());
-    await setDoc(doc(db, "userOrders", `${userUid}`), {
-      orders: { ...cart },
-      orderDetails: route.params,
-      customerEmail: userName.toString(),
-    });
+    if (submitting.current || !cart.length) return;
+    if (!userUid) {
+      navigation.replace("Login");
+      return;
+    }
+    submitting.current = true;
+    setPlacingOrder(true);
+    try {
+      await setDoc(doc(db, "userOrders", userUid), {
+        orders: { ...cart },
+        orderDetails: route.params,
+        customerEmail: userName ?? "",
+      });
+      dispatch(cleanCart());
+      navigation.navigate("Order");
+    } catch (error) {
+      Alert.alert("Order could not be placed", error.message);
+    } finally {
+      submitting.current = false;
+      setPlacingOrder(false);
+    }
   };
 
   const printToFile = async () => {
-    // On iOS/android prints the given html. On web prints the HTML from the current page.
-    const { uri } = await printToFileAsync({ html });
-    console.log("File has been saved to:", uri);
-    await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
+    try {
+      if (Platform.OS === "web") {
+        await printAsync({ html });
+        return;
+      }
+      const { uri } = await printToFileAsync({ html });
+      if (await isAvailableAsync()) {
+        await shareAsync(uri, { UTI: ".pdf", mimeType: "application/pdf" });
+      } else {
+        Alert.alert(
+          "Sharing unavailable",
+          "This device cannot share the receipt.",
+        );
+      }
+    } catch (error) {
+      Alert.alert("Receipt could not be saved", error.message);
+    }
   };
 
   return (
@@ -312,9 +339,9 @@ export default function CartScreen({ route }) {
               </Text>
             </View>
 
-            <Pressable onPress={placeOrder}>
+            <Pressable onPress={placeOrder} disabled={placingOrder}>
               <Text style={{ fontSize: 17, fontWeight: "600", color: "white" }}>
-                Place Order
+                {placingOrder ? "Placing Order…" : "Place Order"}
               </Text>
             </Pressable>
           </Pressable>
@@ -323,5 +350,3 @@ export default function CartScreen({ route }) {
     </>
   );
 }
-
-const styles = StyleSheet.create({});

@@ -6,34 +6,58 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "doctor": "expo-doctor",
+    "check:dependencies": "expo install --check",
+    "lint": "eslint .",
+    "test": "node --test tests/*.test.mjs",
+    "build": "expo export --platform all",
+    "build:web": "expo export --platform web",
+    "build:android": "expo run:android",
+    "build:ios": "expo run:ios"
   },
   "dependencies": {
-    "@awrminkhodaei/react-native-horizontal-datepicker": "^0.1.6",
-    "@react-navigation/native": "^6.1.7",
-    "@react-navigation/native-stack": "^6.9.13",
-    "@reduxjs/toolkit": "^1.9.5",
-    "@rneui/base": "^4.0.0-rc.7",
-    "@rneui/themed": "^4.0.0-rc.8",
-    "date-fns": "^2.30.0",
-    "expo": "~48.0.15",
-    "expo-location": "~15.1.1",
-    "expo-print": "~12.2.1",
-    "expo-sharing": "~11.2.2",
-    "expo-status-bar": "~1.4.4",
-    "firebase": "^9.23.0",
-    "lottie-react-native": "5.1.4",
-    "moment-jalaali": "^0.10.0",
-    "object-to-array-convert": "^1.1.0",
-    "react": "18.2.0",
-    "react-native": "0.71.8",
-    "react-native-image-slider-box": "^2.0.7",
-    "react-native-safe-area-context": "4.5.0",
-    "react-native-screens": "~3.20.0",
-    "react-redux": "^8.1.1"
+    "@expo/metro-runtime": "~57.0.16",
+    "@expo/vector-icons": "^15.0.2",
+    "@lottiefiles/dotlottie-react": "^0.13.5",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-navigation/native": "^7.4.1",
+    "@react-navigation/native-stack": "^7.19.2",
+    "@reduxjs/toolkit": "^2.12.0",
+    "date-fns": "^4.4.0",
+    "expo": "~57.0.24",
+    "expo-font": "~57.0.4",
+    "expo-location": "~57.0.19",
+    "expo-print": "~57.0.2",
+    "expo-sharing": "~57.0.21",
+    "expo-splash-screen": "~57.0.9",
+    "expo-status-bar": "~57.0.1",
+    "expo-system-ui": "~57.0.4",
+    "firebase": "^12.19.0",
+    "lottie-react-native": "~7.3.8",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-web": "~0.21.0",
+    "react-redux": "^9.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "babel-preset-expo": "~57.0.12",
+    "eslint": "^9.39.0",
+    "eslint-config-expo": "~57.0.2",
+    "expo-doctor": "^1.20.4"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=24.3.0 <25",
+    "npm": ">=11 <12"
+  },
+  "overrides": {
+    "xcode": {
+      "uuid": "^11.1.1"
+    }
+  }
 }
